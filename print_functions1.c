@@ -1,124 +1,58 @@
 #include "main.h"
-#include <unistd.h>
-#include <stdio.h>
-/**
- * print_char - writes the character c to stdout
- * @arg: argument
- *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
- */
-int print_char(va_list arg)
-{
-	return (_putchar(va_arg(arg, int)));
-}
 
 /**
- * print_int - prints an integer.
- * @arg: argument
- * Return: 0
+ * _rot13 - function that converts a string to rot13
+ * @ap: argument pointer to take arguments from.
+ * Return: the counter of the string.
  */
-
-int print_int(va_list arg)
+int _rot13(va_list ap)
 {
+	int i, j, counter = 0;
+	int f = 0;
+	char *s = va_arg(ap, char*);
+	char a[] = {"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"};
+	char b[] = {"nopqrstuvwxyzabcdefghijklmNOPQRSTUVWXYZABCDEFGHIJKLM"};
 
-unsigned int divisor = 1, i, resp, charPrinted = 0;
-int n = va_arg(arg, int);
-
-if (n < 0)
-{
-	_putchar('-');
-	charPrinted++;
-	n *= -1;
-}
-
-for (i = 0; n / divisor > 9; i++, divisor *= 10)
-;
-
-for (; divisor >= 1; n %= divisor, divisor /= 10, charPrinted++)
-{
-	resp = n / divisor;
-	_putchar('0' + resp);
-}
-return (charPrinted);
-}
-
-
-
-/**
- * print_STR - prints a string with a `S` (upper case) specificer
- * @arg: argument
- * Return: number of character printed
- */
-
-int print_STR(va_list arg)
-{
-int i;
-char *str = va_arg(arg, char*);
-
-if (str == NULL)
-	str = "(null)";
-else if (*str == '\0')
-	return (-1);
-
-for (i = 0; str[i]; i++)
-{
-	if ((str[i] < 32 && str[i] > 0) || str[i] >= 127)
+	if (s == NULL)
+		s = "(null)";
+	for (i = 0; s[i]; i++)
 	{
-		_putchar('\\');
-		_putchar('x');
-		if (i < 16)
-			_putchar('0');
-
-		print_unsignedIntToHex(str[i], 'A');
+		f = 0;
+		for (j = 0; a[j] && !f; j++)
+		{
+			if (s[i] == a[j])
+			{
+				_putchar(b[j]);
+				counter++;
+				f = 1;
+			}
+		}
+		if (!f)
+		{
+			_putchar(s[i]);
+			counter++;
+		}
 	}
-	else
-		_putchar(str[i]);
+	return (counter);
 }
-
-return (i);
-}
-
 /**
- * print_str - prints a string with a `s` (lower case) specifier
- * @arg: argument
- * Return: number of character printed
+ * _printrev - prints a string, in reverse
+ * @ap: argument pointer to take arguments from
+ *
+ * Return: the counter of the string
  */
-
-int print_str(va_list arg)
+int _printrev(va_list ap)
 {
-int i;
-char *str = va_arg(arg, char*);
 
-if (str == NULL)
-	str = "(null)";
-else if (*str == '\0')
-	return (-1);
+	char *s = va_arg(ap, char*);
+	int c;
+	int i = 0;
 
-for (i = 0; str[i]; i++)
-	_putchar(str[i]);
-
-return (i);
-}
-
-/**
- * print_unsigned - prints an unsigned int.
- * @arg: argument
- * Return: 0
- */
-
-int print_unsigned(va_list arg)
-{
-int divisor = 1, i, resp;
-unsigned int n = va_arg(arg, unsigned int);
-
-for (i = 0; n / divisor > 9; i++, divisor *= 10)
-;
-
-for (; divisor >= 1; n %= divisor, divisor /= 10)
-{
-	resp = n / divisor;
-	_putchar('0' + resp);
-}
-return (i + 1);
+	if (s == NULL)
+		s = "(null)";
+	while (s[i] != '\0')
+		i++;
+	for (c = i - 1; c >= 0; c--)
+		_putchar(s[c]);
+	return (i);
 }
