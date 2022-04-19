@@ -1,5 +1,5 @@
-#ifndef _MAIN_H_
-#define _MAIN_H_
+#ifndef HOLBERTON_H
+#define HOLBERTON_H
 
 #include <stdarg.h>
 #include <unistd.h>
