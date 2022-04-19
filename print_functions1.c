@@ -1,58 +1,34 @@
 #include "main.h"
 
-/**
- * _rot13 - function that converts a string to rot13
- * @ap: argument pointer to take arguments from.
- * Return: the counter of the string.
- */
-int _rot13(va_list ap)
+int print_R(va_list list)
 {
-	int i, j, counter = 0;
-	int f = 0;
-	char *s = va_arg(ap, char*);
-	char a[] = {"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"};
-	char b[] = {"nopqrstuvwxyzabcdefghijklmNOPQRSTUVWXYZABCDEFGHIJKLM"};
-
-	if (s == NULL)
-		s = "(null)";
-	for (i = 0; s[i]; i++)
-	{
-		f = 0;
-		for (j = 0; a[j] && !f; j++)
-		{
-			if (s[i] == a[j])
-			{
-				_putchar(b[j]);
-				counter++;
-				f = 1;
-			}
-		}
-		if (!f)
-		{
-			_putchar(s[i]);
-			counter++;
-		}
-	}
-	return (counter);
+  return (p_rot13(va_arg(list, char*)));
 }
+
 /**
- * _printrev - prints a string, in reverse
- * @ap: argument pointer to take arguments from
- *
- * Return: the counter of the string
+ * p_binary - convert decimal number to binary number.
+ * @valist: arguments
+ * Return: number of characters printed
  */
-int _printrev(va_list ap)
+int p_binary(va_list list)
 {
+  int i, j;
+  int num = 0;
+  unsigned int n;
+  unsigned int arr[30];
 
-	char *s = va_arg(ap, char*);
-	int c;
-	int i = 0;
-
-	if (s == NULL)
-		s = "(null)";
-	while (s[i] != '\0')
-		i++;
-	for (c = i - 1; c >= 0; c--)
-		_putchar(s[c]);
-	return (i);
+  n = va_arg(list, unsigned int);
+  if (n < 2)
+    num += _putchar(n + '0');
+  else
+    {
+      for (j = 0; n > 0; j++)
+	{
+	  arr[j] = n % 2;
+	  n = n / 2;
+	}
+      for (i = j - 1; i >= 0; i--)
+	num += _putchar(arr[i] + '0');
+    }
+  return (num);
 }
