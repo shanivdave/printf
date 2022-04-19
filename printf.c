@@ -5,43 +5,84 @@
 #include<stdlib.h>
 
 
+
+/**
+ * get_spec - get the format
+ * @format: type of specifier
+ *
+ * Return: NULL or valid function
+ */
+
+int (*get_spec(const char *format))(va_list)
+{
+	print_t p[] = {
+		{"c", print_c},
+		{"s", print_s},
+		{"i", print_i},
+		{"d", print_d},
+		{"u", print_u},
+		{"b", print_b},
+		{"o", print_o},
+		{"x", print_x},
+		{"X", print_X},
+		{"S", print_S},
+		{"r", print_r},
+		{"R", print_R},
+		{NULL, NULL}
+	};
+	int i;
+
+	for (i = 0; p[i].type != NULL; i++)
+	{
+		if (*(p[i].type) == *format)
+			break;
+	}
+	return (p[i].func);
+}
+
+/**
+ * _printf - function print all
+ * @format: type of the argument
+ *
+ * Return: number of characters printed
+ */
 int _printf(const char *format, ...)
 {
-  va_list list;
-  unsigned int i = 0, j = 0;
-  va_start(list, format);
+	int i = 0, n = 0;
+	va_list list;
+	int (*sp)(va_list);
 
-  if (!format || (format[0] == '%' && format[1] == '\0'))
-    return (-1);
-  for (i = 0; format != NULL && format[i] != '\0'; i++)
-    {
-      if (format[i] == '%')
+	if (format == NULL)
+		return (-1);
+	va_start(list, format);
+	while (format[i])
 	{
-	  if (format[i + 1] == '%')
-	    {
-	      _putchar('%');
-	      j++;
-	      i++;
-	    }
-	  else if (_typefor(format, i + 1) != NULL)
-	    {
-	      j += _typefor(format, i + 1)(list);
-	      i++;
-	    }
-	  else
-	    {
-	      _putchar(format[i]);
-	      j++;
-	    }
+		for (; format[i] && format[i] != '%'; i++)
+		{
+			_putchar(format[i]);
+			n++;
+		}
+		if (format[i] == '\0')
+			return (n);
+
+		sp = get_spec(&format[i + 1]);
+		if (sp != NULL)
+		{
+			n += sp(list);
+			i += 2;
+			continue;
+		}
+		if (!format[i + 1])
+			return (-1);
+		_putchar(format[i]);
+		n++;
+		if (format[i + 1] == '%')
+			i += 2;
+		else
+			i++;
 	}
-      else
-	{
-	  _putchar(format[i]);
-	  j++;
-	}
-    }
-  va_end(list);
-  return (j);
+	va_end(list);
+	return (n);
 }
 
 
