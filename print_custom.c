@@ -36,18 +36,6 @@ int print_bigS(va_list l, flags_t *f)
 	}
 	return (count);
 }
-
-/**
- * isNonAlphaNumeric - determines if char is a non-
- * alphanumeric char on ASCII table
- * @c: input char
- * Return: true or false
- */
-_Bool isNonAlphaNumeric(char c)
-{
-	return ((c > 0 && c < 32) || c >= 127);
-}
-
 /**
  * print_rev - prints a string in reverse
  * @l: argument from _printf
