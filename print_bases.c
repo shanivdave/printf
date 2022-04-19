@@ -1,5 +1,8 @@
 #include "main.h"
+<<<<<<< HEAD
 
+=======
+>>>>>>> 899a2d6080969dbd5e232809521c08eb8f4f058d
 /**
  * print_hex - prints a number in hexadecimal base,
  * in lowercase
