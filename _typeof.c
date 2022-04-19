@@ -6,29 +6,25 @@
  * @argb: position.
  * Return: 0.
  */
-int (*get_spec(const char *format))(va_list)
+int (*_typefor(const char *argu, int argb))(va_list)
 {
-	print_t p[] = {
-		{"c", print_c},
-		{"s", print_s},
-		{"i", print_i},
-		{"d", print_d},
-		{"u", print_u},
-		{"b", print_b},
-		{"o", print_o},
-		{"x", print_x},
-		{"X", print_X},
-		{"S", print_S},
-		{"r", print_r},
-		{"R", print_R},
-		{NULL, NULL}
-	};
-	int i;
+  s_type types[] = {
+    {"c", p_char},
+    {"s", p_string},
+    {"d", p_int},
+    {"i", p_int},
+    {"R", print_R},
+    {"b", p_binary},
+    {NULL, NULL},
+  };
+  int i;
 
-	for (i = 0; p[i].type != NULL; i++)
+  for (i = 0; types[i].args != NULL; i++)
+    {
+      if (types[i].args[0] == argu[argb])
 	{
-		if (*(p[i].type) == *format)
-			break;
+	  return (types[i].func);
 	}
-	return (p[i].func);
+    }
+  return (NULL);
 }
