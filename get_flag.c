@@ -6,11 +6,12 @@
  *
  * Return: 1 if a flag has been turned on, 0 otherwise
  */
-int get_flag(char s, flags_t *f)
+int get_flags(char c, han_s *f)
 {
-int i = 0;
-switch (s)
-{
+	int i = 0;
+
+	switch (c)
+	{
 	case '+':
 		(*f).plus = 1;
 		i = 1;
@@ -32,7 +33,7 @@ switch (s)
 		i = 1;
 		break;
 	}
-return (i);
+	return (i);
 }
 
 
