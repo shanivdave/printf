@@ -30,7 +30,6 @@ int (*get_print(char s))(va_list, flags_t *)
 		{'%', print_percent},
 		{NUL, NULL}
 		};
-	int flags = 14;
 
 	register int i;
 
