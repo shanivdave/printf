@@ -1,49 +1,47 @@
-#include "main.h"
+#include"main.h"
+#include<stdio.h>
+#include<stdarg.h>
+#include<unistd.h>
+#include<stdlib.h>
 
-/**
- * _printf - produces output according to a format
- * @format: format string containing the characters and the specifiers
- * Description: this function will call the get_print() function that will
- * determine which printing function to call depending on the conversion
- * specifiers contained into fmt
- * Return: length of the formatted output string
- */
+
 int _printf(const char *format, ...)
 {
-	int (*pfunc)(va_list, flags_t *);
-	const char *p;
-	va_list arguments;
-	flags_t flags = {0, 0, 0};
+  va_list list;
+  unsigned int i = 0, j = 0;
+  va_start(list, format);
 
-	register int count = 0;
-
-	va_start(arguments, format);
-	if (!format || (format[0] == '%' && !format[1]))
-		return (-1);
-	if (format[0] == '%' && format[1] == ' ' && !format[2])
-		return (-1);
-	for (p = format; *p; p++)
+  if (!format || (format[0] == '%' && format[1] == '\0'))
+    return (-1);
+  for (i = 0; format != NULL && format[i] != '\0'; i++)
+    {
+      if (format[i] == '%')
 	{
-		if (*p == '%')
-		{
-			p++;
-			if (*p == '%')
-			{
-				count += _putchar('%');
-				continue;
-			}
-			while (get_flag(*p, &flags))
-				p++;
-			pfunc = get_print(*p);
-			count += (pfunc)
-				? pfunc(arguments, &flags)
-				: _printf("%%%c", *p);
-		} else
-			count += _putchar(*p);
+	  if (format[i + 1] == '%')
+	    {
+	      _putchar('%');
+	      j++;
+	      i++;
+	    }
+	  else if (_typefor(format, i + 1) != NULL)
+	    {
+	      j += _typefor(format, i + 1)(list);
+	      i++;
+	    }
+	  else
+	    {
+	      _putchar(format[i]);
+	      j++;
+	    }
 	}
-	_putchar(-1);
-	va_end(arguments);
-	return (count);
+      else
+	{
+	  _putchar(format[i]);
+	  j++;
+	}
+    }
+  va_end(list);
+  return (j);
 }
 
 
