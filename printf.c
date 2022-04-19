@@ -1,57 +1,48 @@
-#include <stdarg.h>
-#include "main.h"
-#include <stdio.h>
-#include "holberton.h"
+#include"main.h"
+#include<stdio.h>
+#include<stdarg.h>
+#include<unistd.h>
+#include<stdlib.h>
 
-/**
- * _printf - prints formatted data to stdout
- * @format: string that contains the format to print
- * Return: number of characters written
- */
-int _printf(char *format, ...)
+
+int _printf(const char *format, ...)
 {
-	int written = 0, (*structype)(char *, va_list);
-	char q[3];
-	va_list pa;
+  va_list list;
+  unsigned int i = 0, j = 0;
+  va_start(list, format);
 
-	if (format == NULL)
-		return (-1);
-	q[2] = '\0';
-	va_start(pa, format);
-	_putchar(-1);
-	while (format[0])
+  if (!format || (format[0] == '%' && format[1] == '\0'))
+    return (-1);
+  for (i = 0; format != NULL && format[i] != '\0'; i++)
+    {
+      if (format[i] == '%')
 	{
-		if (format[0] == '%')
-		{
-			structype = driver(format);
-			if (structype)
-			{
-				q[0] = '%';
-				q[1] = format[1];
-				written += structype(q, pa);
-			}
-			else if (format[1] != '\0')
-			{
-				written += _putchar('%');
-				written += _putchar(format[1]);
-			}
-			else
-			{
-				written += _putchar('%');
-				break;
-			}
-			format += 2;
-		}
-		else
-		{
-			written += _putchar(format[0]);
-			format++;
-		}
+	  if (format[i + 1] == '%')
+	    {
+	      _putchar('%');
+	      j++;
+	      i++;
+	    }
+	  else if (_typefor(format, i + 1) != NULL)
+	    {
+	      j += _typefor(format, i + 1)(list);
+	      i++;
+	    }
+	  else
+	    {
+	      _putchar(format[i]);
+	      j++;
+	    }
 	}
-	_putchar(-2);
-	return (written);
+      else
+	{
+	  _putchar(format[i]);
+	  j++;
+	}
+    }
+  va_end(list);
+  return (j);
 }
-
 
 
 
