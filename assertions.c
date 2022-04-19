@@ -17,4 +17,4 @@ _Bool invalidInputs(const char *p)
 	if (*p == '%' && *(p + 1) == ' ' && !*(p + 2))
 		return (false);
 	return (true);
-}
+}}
